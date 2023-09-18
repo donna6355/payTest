@@ -1,4 +1,5 @@
 import 'dart:async';
+import '../custom_nav.dart';
 import '../extensions.dart';
 import '../data/dio_client.dart';
 import '../payment_info.dart';
@@ -82,7 +83,8 @@ class PaymentRepo {
   static void _handlePaymentOk(String res) {
     final PaymentInfo payInfo = PaymentInfo.fromString(res.substring(16));
     if (payInfo.responseCode == Payment.ok) {
-      // ApiRepo.deliverPayInfo(payInfo: payInfo);
+      CustomNavigator.log(
+          '[PAY_INF] PAYMENT SUCCESS ${payInfo.approvalNumber}');
     } else {
       _handlePaymentErr('VAN${payInfo.responseCode}');
     }
@@ -100,6 +102,7 @@ class PaymentRepo {
   }
 
   static void _handlePaymentErr(String errorCode) {
+    CustomNavigator.log('[PAY_INF] PAYMENT FAILED $errorCode');
     // Provider.of<LayoutState>(CustomNavigator.ctx, listen: false)
     // .toggleDialog(toShow: true, child: Dialogs.payFail);
   }

@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 
+import '../custom_nav.dart';
+
 class SerialBarcode {
   static SerialPort? _barcodePort;
   static SerialPortReader? _barcodeReader;
@@ -8,11 +10,7 @@ class SerialBarcode {
 
   static dynamic init(int port) {
     try {
-      // LogController.writeLog(
-      //   level: LogLevel.bcd,
-      //   tag: LogTag.rmk,
-      //   msg: 'initialize serial barcode COM$port',
-      // );
+      CustomNavigator.log('[BCD_RMK] initialize serial barcode COM$port');
       _barcodePort = SerialPort("COM$port");
 
       _barcodePort!.config.baudRate = 9600;

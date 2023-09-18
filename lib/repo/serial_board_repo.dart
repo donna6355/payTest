@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
-import 'package:provider/provider.dart';
-
+import '../custom_nav.dart';
 import '../data/serial_board.dart';
 
 enum Phase {
@@ -23,60 +22,40 @@ class SerialBoardRepo {
   static String _lastRes = '';
   static final List<int> _res = [];
   static Timer? _timer;
-  static Function(int)? _callBack;
   static int _port = 1;
 
   static bool standbyBoard(int port) {
     _port = port;
     dynamic initDone = SerialBoard.init(port);
     if (initDone != true) {
-      // LogController.writeLog(
-      //   level: LogLevel.pcb,
-      //   tag: LogTag.err,
-      //   msg: 'failed to init main board ${initDone.toString()}',
-      // );
+      CustomNavigator.log(
+          '[PCB_ERR] failed to init main board ${initDone.toString()}');
       return false;
     }
     _boardStream = SerialBoard.readBoardStream();
     if (_boardStream == null) {
-      // LogController.writeLog(
-      //   level: LogLevel.pcb,
-      //   tag: LogTag.err,
-      //   msg: 'failed to open main board stream',
-      // );
+      CustomNavigator.log('[PCB_ERR] failed to open main board stream');
       return false;
     }
     _boardStream!.listen(_handleBoardStream, onError: errorHandler);
-    // LogController.writeLog(
-    //   level: LogLevel.pcb,
-    //   tag: LogTag.rmk,
-    //   msg: 'good to read main board',
-    // );
+    CustomNavigator.log('[PCB_RMK] good to read main board');
     _startBoardCommunication();
     return true;
   }
 
   static Future<void> errorHandler(dynamic e) async {
     bool res = false;
-    // LogController.writeLog(
-    //   level: LogLevel.pcb,
-    //   tag: LogTag.err,
-    //   msg: e.toString(),
-    // );
+
+    CustomNavigator.log('[PCB_ERR] ${e.toString()}');
     terminate();
     await Future.delayed(const Duration(seconds: 5));
     // await portOpenClose();
     res = standbyBoard(_port);
-    // LogController.writeLog(
-    //   level: LogLevel.pcb,
-    //   tag: res ? LogTag.rmk : LogTag.err,
-    //   msg: res ? 'succeded to re-init port' : 'failed to re-init port',
-    // );
-    if (!res) {
-    } else {
-      // Provider.of<LayoutState>(CustomNavigator.ctx, listen: false)
-      //     .toggleDialog(toShow: false);
-    }
+    CustomNavigator.log(
+      res
+          ? '[PCB_RMK] succeded to re-init port'
+          : '[PCB_ERR] failed to re-init port',
+    );
   }
 
   static void _handleBoardStream(Uint8List data) async {
@@ -87,23 +66,9 @@ class SerialBoardRepo {
     final String converted = String.fromCharCodes(currentRes);
 
     if (converted != _lastRes) {
-      // Provider.of<AdminState>(CustomNavigator.ctx, listen: false)
-      //     .updateSensorList(
-      //   door: currentRes[3],
-      //   hand: currentRes[4],
-      //   fw: converted.substring(18, 19),
-      //   switches: currentRes.sublist(6, 18),
-      // );
-      // LogController.writeLog(
-      //   level: LogLevel.pcb,
-      //   tag: LogTag.rcv,
-      //   msg: '${currentRes.toString()} ($converted)',
-      // );
-      if (_callBack == null) {
-        updatePhase(Phase.standby);
-      } else {
-        _callBack!(currentRes[3]);
-      }
+      CustomNavigator.log('[PCB_RCV] $converted');
+      updatePhase(Phase.standby);
+
       _lastRes = converted;
     }
     _res.removeRange(0, 21);
@@ -116,11 +81,7 @@ class SerialBoardRepo {
         if (_nextPhase != null) {
           SerialBoard.wirteBoard(_nextPhase!.cmd);
           _phase = _nextPhase!;
-          // LogController.writeLog(
-          //   level: LogLevel.pcb,
-          //   tag: LogTag.snd,
-          //   msg: _nextPhase!.cmd.toString(),
-          // );
+          CustomNavigator.log('[PCB_SND] ${_nextPhase!.cmd.toString()}');
           _nextPhase = null;
         } else {
           SerialBoard.wirteBoard(_phase.cmd);
@@ -129,31 +90,9 @@ class SerialBoardRepo {
     );
   }
 
-  static void updatePhase(Phase? next, {bool updateCb = true}) {
+  static void updatePhase(Phase? next) {
     _nextPhase = next;
-    if (updateCb) _callBack = _nextPhase!.cb;
   }
-
-  // static void openCallBack(int doorStatus) {
-  //   if (doorStatus < 0x33) return;
-  //   if (doorStatus == 0x33) CommonMethods.readyToRental(true);
-
-  //   if (doorStatus == 0x34) {
-  //     ErrHandler.updateErr(key: Err.board, hasError: true);
-  //     CommonMethods.clearNBackToHome();
-  //   }
-  //   updatePhase(Phase.standby);
-  // }
-
-  // static void closeCallBack(int doorStatus) {
-  //   if (doorStatus < 0x37) return;
-
-  //   if (doorStatus == 0x38) {
-  //     ErrHandler.updateErr(key: Err.board, hasError: true);
-  //   }
-  //   updatePhase(Phase.standby);
-  //   CommonMethods.clearNBackToHome();
-  // }
 
   static void terminate() {
     _timer?.cancel();

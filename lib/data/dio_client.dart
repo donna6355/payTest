@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:pay_test/custom_nav.dart';
 
 class Client {
   late Dio _client;
@@ -23,31 +24,19 @@ class Client {
 class PaymentLogInterceptor extends Interceptor {
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
-    // LogController.writeLog(
-    //   level: LogLevel.pay,
-    //   tag: LogTag.snd,
-    //   msg: options.data,
-    // );
+    CustomNavigator.log('[PAY_SND] ${options.data}');
     super.onRequest(options, handler);
   }
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    // LogController.writeLog(
-    //   level: LogLevel.pay,
-    //   tag: LogTag.rcv,
-    //   msg: response.data,
-    // );
+    CustomNavigator.log('[PAY_RCV] ${response.data}');
     super.onResponse(response, handler);
   }
 
   @override
   void onError(DioException err, ErrorInterceptorHandler handler) {
-    // LogController.writeLog(
-    //   level: LogLevel.pay,
-    //   tag: LogTag.err,
-    //   msg: err.toString(),
-    // );
+    CustomNavigator.log('[PAY_ERR] ${err.message}(${err.error})');
     super.onError(err, handler);
   }
 }

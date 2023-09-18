@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter_libserialport/flutter_libserialport.dart';
 
+import '../custom_nav.dart';
 import '../repo/serial_board_repo.dart';
 
 class SerialBoard {
@@ -11,11 +12,7 @@ class SerialBoard {
 
   static dynamic init(int port) {
     try {
-      // LogController.writeLog(
-      //   level: LogLevel.pcb,
-      //   tag: LogTag.rmk,
-      //   msg: 'initialize serial board COM$port',
-      // );
+      CustomNavigator.log('[PCB_RMK] initialize serial board COM$port');
       _boardPort = SerialPort("COM$port");
 
       _boardPort!.config.baudRate = 38400;
