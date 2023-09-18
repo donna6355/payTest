@@ -40,11 +40,12 @@ class PaymentRepo {
   }
 
   //TODO consider it later more
-  // static Future<void> cancelReq() async {
-  //   try {
-  //     await _client.nvcat('0020VCAT${space}0008REQ_STOP');
-  //   } catch (_) {}
-  // }
+  static Future<void> cancelReq() async {
+    try {
+      final Client client = Client(const String.fromEnvironment('nicePayStop'));
+      await client.nvcat('0020VCAT${space}0008REQ_STOP');
+    } catch (_) {}
+  }
 
   static Future<void> restartNVCAT() async {
     try {
