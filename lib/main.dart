@@ -75,9 +75,15 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               const Label('메인보드 테스트'),
               const SizedBox(width: 50),
-              ElevatedButton(onPressed: () {}, child: Text('도어 열기')),
+              ElevatedButton(
+                onPressed: () => SerialBoardRepo.updatePhase(Phase.doorOpen),
+                child: const Text('도어 열기'),
+              ),
               const SizedBox(width: 50),
-              ElevatedButton(onPressed: () {}, child: Text('도어 닫기')),
+              ElevatedButton(
+                onPressed: () => SerialBoardRepo.updatePhase(Phase.doorClose),
+                child: const Text('도어 닫기'),
+              ),
             ],
           ),
           // Row(
