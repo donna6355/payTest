@@ -110,6 +110,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: PaymentRepo.checkCardIn,
                 child: Text('카드 확인 => 결제'),
               ),
+              ElevatedButton(
+                onPressed: PaymentRepo.cancelReq,
+                child: Text('직전 취소'),
+              ),
             ],
           ),
           Container(
