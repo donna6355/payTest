@@ -13,7 +13,6 @@ enum VerifyCode {
 class SerialBarcodeRepo {
   SerialBarcodeRepo._();
   static Stream<Uint8List>? _barcodeStream;
-  static List<int> _combine = [];
   static int _port = 2;
 
   static bool readBarcode(int port) {
@@ -54,11 +53,8 @@ class SerialBarcodeRepo {
   }
 
   static void handleBarcodeStream(Uint8List data) {
-    _combine += data;
-    if (_combine.last != 10) return;
-    final String converted = String.fromCharCodes(_combine).trim();
+    final String converted = String.fromCharCodes(data).trim();
     CustomNavigator.log('[BCD_RCV] $converted');
-    _combine = [];
   }
 
   static void terminate() {

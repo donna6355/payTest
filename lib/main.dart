@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     SerialBoardRepo.standbyBoard(1);
-    SerialBarcodeRepo.readBarcode(2);
+    SerialBarcodeRepo.readBarcode(3);
   }
 
   @override
