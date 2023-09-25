@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'custom_nav.dart';
+import 'data/serial_port_helper.dart';
 import 'repo/payment_repo.dart';
 import 'repo/serial_barcode_repo.dart';
 import 'repo/serial_board_repo.dart';
@@ -50,6 +51,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    init();
+  }
+
+  Future<void> init()async{
+    await portOpenClose();
     SerialBoardRepo.standbyBoard(1);
     SerialBarcodeRepo.readBarcode(3);
   }

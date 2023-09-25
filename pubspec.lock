@@ -195,6 +195,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  serial_port_win32:
+    dependency: "direct main"
+    description:
+      name: serial_port_win32
+      sha256: "02132d520a2cfe8bf1915565939f0d68106c970620a9e386026c8f889659f1ab"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -264,6 +272,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  win32:
+    dependency: transitive
+    description:
+      name: win32
+      sha256: "5a751eddf9db89b3e5f9d50c20ab8612296e4e8db69009788d6c8b060a84191c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.4"
 sdks:
   dart: ">=3.0.6 <4.0.0"
   flutter: ">=3.0.0"
