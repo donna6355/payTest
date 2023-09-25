@@ -55,7 +55,7 @@ class PaymentRepo {
 
   static Future<void> _requestPayment({bool fallBack = false}) async {
     final String payData =
-        'NICEVCAT\u00070200${fs}10$fs${fallBack ? 'F' : 'C'}$fs${'2000'}$fs$fs${fs}00$fs$fs$fs$fs$fs$fs$fs$fs$fs$fs$fs${fallBack ? 'FALLBACK' : ''}$fs\u0007';
+        'NICEVCAT\u00070200${fs}10$fs${fallBack ? 'F' : 'C'}$fs${'100'}$fs$fs${fs}00$fs$fs$fs$fs$fs$fs$fs$fs$fs$fs$fs${fallBack ? 'FALLBACK' : ''}$fs\u0007';
     final int dataLen = payData.length;
     final String fullData =
         '${(dataLen + 12).toFourDigit()}VCAT$space${dataLen.toFourDigit()}$payData';

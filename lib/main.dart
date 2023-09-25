@@ -108,8 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
               SizedBox(width: 50),
               ElevatedButton(
                 onPressed: PaymentRepo.checkCardIn,
-                child: Text('카드 확인 => 결제'),
+                child: Text('카드 확인 => 100원 결제'),
               ),
+              SizedBox(width: 50),
               ElevatedButton(
                 onPressed: PaymentRepo.cancelReq,
                 child: Text('직전 취소'),
