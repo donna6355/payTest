@@ -38,6 +38,8 @@ dependencies:
   provider: ^6.0.5
   flutter_libserialport: ^0.3.0  
   serial_port_win32: ^0.7.0
+  camera_platform_interface: ^2.5.2
+  camera_windows: ^0.2.1+8
 
 dev_dependencies:
   flutter_test:

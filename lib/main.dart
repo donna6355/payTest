@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:pay_test/repo/cam_controller.dart';
 import 'package:provider/provider.dart';
 import 'custom_nav.dart';
 import 'data/serial_port_helper.dart';
@@ -56,8 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> init()async{
     await portOpenClose();
-    SerialBoardRepo.standbyBoard(1);
-    SerialBarcodeRepo.readBarcode(3);
+    SerialBoardRepo.standbyBoard(2);
+    SerialBarcodeRepo.readBarcode(5);
   }
 
   @override
@@ -95,11 +96,13 @@ class _MyHomePageState extends State<MyHomePage> {
           // Row(
           //   crossAxisAlignment: CrossAxisAlignment.center,
           //   children: [
-          //     const Label('바코드 테스트'),
+          //     const Label('카메라 테스트'),
           //     const SizedBox(width: 50),
-          //     ElevatedButton(onPressed: () {}, child: Text('포트 열기')),
+          //     ElevatedButton(onPressed: CameraController.fetchCamera, child: Text('카메라 오픈')),
           //     const SizedBox(width: 50),
-          //     ElevatedButton(onPressed: () {}, child: Text('포트 닫기')),
+          //     ElevatedButton(onPressed: CameraController.startRecording, child: Text('동영상 녹화')),
+          //     const SizedBox(width: 50),
+          //     ElevatedButton(onPressed: CameraController.stopRecording, child: Text('녹화 중지')),
           //   ],
           // ),
           const Row(
